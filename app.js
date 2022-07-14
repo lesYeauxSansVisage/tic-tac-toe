@@ -1,16 +1,14 @@
 const Gameboard = {
-  gameBoard: new Array(9),
+  gameBoard: [1, 2, 3, 4, 5, 6, 7, 8, 9],
 };
-
-console.log(Gameboard.gameBoard);
 
 const renderBoard = (board) => {
   const gameTable = document.querySelector(".game-table");
 
-  for (let i = 0; i < board.length; i++) {
+  for (let i = 1; i <= board.length; i++) {
     gameTable.innerHTML += `
       <div class="game-cell" data-cell-number="${i}">
-        ${i % 2 == 0 ? "X" : "O"}
+ 
       </div>
     `;
   }
@@ -18,13 +16,10 @@ const renderBoard = (board) => {
 
 renderBoard(Gameboard.gameBoard);
 
-const Player = (moves) => {
-  return { moves };
+const Player = (moves, sign) => {
+  
+  return { moves, sign };
 };
-
-const player1 = Player([3, 6, 9]);
-
-console.log(player1);
 
 const startBtn = document.querySelector("#start");
 const startGamePage = document.querySelector(".start-game-page");
@@ -32,3 +27,23 @@ const startGamePage = document.querySelector(".start-game-page");
 startBtn.addEventListener("click", () => {
   startGamePage.classList.add("up");
 });
+
+const gameCells = document.querySelectorAll(".game-cell");
+
+gameCells.forEach((cell) =>
+  cell.addEventListener("click", () => {
+    cell.innerText = "X";
+  })
+);
+
+const markCell = (player) => {
+  return player.marker;
+};
+
+const playerMove = (player) => {
+  player.moves.push(move);
+};
+
+// Make a function to mark a cell of the game
+// Check if the cell is taken
+// Save the selected move in the player array called "Moves"
