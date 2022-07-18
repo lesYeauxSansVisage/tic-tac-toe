@@ -1,3 +1,7 @@
+const startBtn = document.querySelector("#start");
+const startGamePage = document.querySelector(".start-game-page");
+const gameCells = document.querySelectorAll(".game-cell");
+
 const Gameboard = {
   gameBoard: [1, 2, 3, 4, 5, 6, 7, 8, 9],
 };
@@ -17,18 +21,12 @@ const renderBoard = (board) => {
 renderBoard(Gameboard.gameBoard);
 
 const Player = (moves, sign) => {
-  
   return { moves, sign };
 };
-
-const startBtn = document.querySelector("#start");
-const startGamePage = document.querySelector(".start-game-page");
 
 startBtn.addEventListener("click", () => {
   startGamePage.classList.add("up");
 });
-
-const gameCells = document.querySelectorAll(".game-cell");
 
 gameCells.forEach((cell) =>
   cell.addEventListener("click", () => {
