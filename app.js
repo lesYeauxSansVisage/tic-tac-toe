@@ -1,47 +1,79 @@
-const startBtn = document.querySelector("#start");
-const startGamePage = document.querySelector(".start-game-page");
-const gameCells = document.querySelectorAll(".game-cell");
+const Player = (sign, moves) => {
+  this.sign = sign;
 
-const Gameboard = {
-  gameBoard: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  moves = [];
+
+  const getSign = () => {
+    return sign;
+  };
+
+  return { getSign };
 };
 
-const renderBoard = (board) => {
-  const gameTable = document.querySelector(".game-table");
+const gameBoard = (() => {
+  const gameboard = [];
 
-  for (let i = 1; i <= board.length; i++) {
-    gameTable.innerHTML += `
-      <div class="game-cell" data-cell-number="${i}">
- 
-      </div>
-    `;
+  const BOARD_SIZE = 9;
+
+  const gametable = document.querySelector("#game-table");
+
+  const renderTable = () => {
+    function addCellListener(e) {
+      gameboard[+e.target.dataset.index] = "X";
+      e.target.innerText = gameController.makeMove();
+      gameController.changeTurn();
+    }
+
+    for (let x = 0; x < BOARD_SIZE; x++) {
+      const gameCell = document.createElement("div");
+      gameCell.classList.add("game-cell");
+      gameboard.push("");
+      gameCell.setAttribute("data-index", x);
+      gameCell.addEventListener("click", addCellListener);
+      gametable.append(gameCell);
+    }
+  };
+
+  return { renderTable, gameboard };
+})();
+
+const gameController = (() => {
+  const player1 = Player("X");
+  const player2 = Player("O");
+
+  let turn = 1;
+  let isOver = false;
+
+  function changeTurn() {
+    turn++;
   }
-};
 
-renderBoard(Gameboard.gameBoard);
+  function makeMove() {
+    return turn % 2 == 0 ? "X" : "O";
+  }
 
-const Player = (moves, sign) => {
-  return { moves, sign };
-};
+  function checkWin(sign) {
+    const winConditions = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
 
-startBtn.addEventListener("click", () => {
-  startGamePage.classList.add("up");
-});
+    const playerMoves = [];
 
-gameCells.forEach((cell) =>
-  cell.addEventListener("click", () => {
-    cell.innerText = "X";
-  })
-);
+    gameBoard.gameboard.forEach((cell, index) =>
+      cell === sign ? playerMoves.push(index) : console.log("Not a match")
+    );
 
-const markCell = (player) => {
-  return player.marker;
-};
+    // winConditions.forEach((conditon) => conditon.includes(...playerMoves));
+  }
 
-const playerMove = (player) => {
-  player.moves.push(move);
-};
+  return { checkWin, changeTurn, makeMove };
+})();
 
-// Make a function to mark a cell of the game
-// Check if the cell is taken
-// Save the selected move in the player array called "Moves"
+gameBoard.renderTable();
