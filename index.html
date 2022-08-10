@@ -19,16 +19,24 @@
 
     <section class="game-page">
         <div class="game-display">
-            <p game-display__counter>PLAYER: <span>0</span></p>
-            <p game-display__counter>COMPUTER: <span>0</span></p>
+            <p game-display__counter>It's <span id="message-span">X</span> turn!</p>
 
         </div>
 
-        <div class="game-table">
+        <div class="game-table" id="game-table">
 
         </div>
+
+        <button class="reset-btn" id="reset">RESET GAME</button>
 
     </section>
+
+
+    <section class="result-page">
+        <h2 class="result__message" id="final-message"></h2>
+    </section>
+
+
 
 
     <script src="app.js"></script>
