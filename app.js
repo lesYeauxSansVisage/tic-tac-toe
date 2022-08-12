@@ -48,20 +48,23 @@ const gameController = (() => {
   const player1 = Player("X");
   const player2 = Player("O");
 
-  let turn = 0;
+  let turn = 1;
   let isOver = false;
 
   let currentPlayer = player1;
 
   function changeTurn() {
-    console.log({ currentPlayer, turn });
     currentPlayer = turn % 2 === 0 ? player1 : player2;
-    turn++;
     displayController.changeMessage(currentPlayer);
+
+    turn += 1;
+
+    console.log(turn % 2);
   }
 
   function makeMove(position) {
     currentPlayer.moves.push(position);
+    console.log(currentPlayer.getSign(), turn % 2);
     return currentPlayer.getSign();
   }
 
