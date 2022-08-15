@@ -10,6 +10,33 @@ const Player = (sign, moves) => {
   return { getSign, moves };
 };
 
+const aiPlayer = (() => {
+  function getEmptyFields() {
+    const validFieldIndex = [];
+    gameBoard.gameboard.forEach(
+      (el, index) => el === "" && validFieldIndex.push(index)
+    );
+
+    return validFieldIndex;
+  }
+
+  function aiMove() {
+    const validMoves = getEmptyFields();
+
+    const randomIndex = Math.floor(Math.random() * validMoves.length);
+
+    return validMoves[randomIndex];
+  }
+
+  const moves = [];
+
+  function getSign() {
+    return "O";
+  }
+
+  return { aiMove, getSign, moves };
+})();
+
 const gameBoard = (() => {
   const gameboard = ["", "", "", "", "", "", "", "", ""];
 
@@ -46,7 +73,7 @@ const gameBoard = (() => {
 
 const gameController = (() => {
   const player1 = Player("X");
-  const player2 = Player("O");
+  const player2 = aiPlayer;
 
   let turn = 1;
   let isOver = false;
@@ -55,16 +82,19 @@ const gameController = (() => {
 
   function changeTurn() {
     currentPlayer = turn % 2 === 0 ? player1 : player2;
+
+    if (!currentPlayer % 2 === 0) {
+      makeMove(aiPlayer.aiMove());
+    }
+
     displayController.changeMessage(currentPlayer);
 
     turn += 1;
-
-    console.log(turn % 2);
   }
 
   function makeMove(position) {
     currentPlayer.moves.push(position);
-    console.log(currentPlayer.getSign(), turn % 2);
+
     return currentPlayer.getSign();
   }
 
